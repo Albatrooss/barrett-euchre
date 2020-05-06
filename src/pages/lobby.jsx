@@ -19,7 +19,7 @@ export default function Lobby() {
 			db.collection(gamecode).doc('teamblue').set({player1: {username: input, hand: []}}, {merge: true})
 			document.querySelector('.userInput').classList.add('hidden');
 		} else if (blue[1] === '') {
-			db.collection(gamecode).doc('teamblue').set({player3: {username: input, hand: []}}, {merge: true})
+			db.collection(gamecode).doc('teamblue').set({player2: {username: input, hand: []}}, {merge: true})
 			document.querySelector('.userInput').classList.add('hidden');
 		}
 		setUsername(input);
@@ -27,10 +27,10 @@ export default function Lobby() {
 	
 	const joinRed = () => {
 		if (red[0] === '') {
-			db.collection(gamecode).doc('teamred').set({player2: {username: input, hand: []}}, {merge: true})
+			db.collection(gamecode).doc('teamred').set({player1: {username: input, hand: []}}, {merge: true})
 			document.querySelector('.userInput').classList.add('hidden');
 		} else if (red[1] === '') {
-			db.collection(gamecode).doc('teamred').set({player4: {username: input, hand: []}}, {merge: true})
+			db.collection(gamecode).doc('teamred').set({player2: {username: input, hand: []}}, {merge: true})
 			document.querySelector('.userInput').classList.add('hidden');
 		}
 		setUsername(input);
