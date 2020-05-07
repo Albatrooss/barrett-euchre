@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
 import firebase from '../firebase';
 import './App.css';
+import StartGame from './components/startGame';
 let db = firebase.firestore();
 
 export default function Lobby() {
@@ -16,7 +17,8 @@ export default function Lobby() {
 	
 	const joinBlue = () => {
 		if (blue[0] === '') {
-			db.collection(gamecode).doc('teamblue').set({player1: {username: input, hand: []}}, {merge: true})
+			db.collection(gamecode).doc('teamblue').set({player1: {username: input, hand: []}, score: 0}, {merge: true})
+			db.collection(gamecode).doc('dealer').set({flipped: 'FD', phase: 3})
 			document.querySelector('.userInput').classList.add('hidden');
 		} else if (blue[1] === '') {
 			db.collection(gamecode).doc('teamblue').set({player2: {username: input, hand: []}}, {merge: true})
@@ -27,7 +29,7 @@ export default function Lobby() {
 	
 	const joinRed = () => {
 		if (red[0] === '') {
-			db.collection(gamecode).doc('teamred').set({player1: {username: input, hand: []}}, {merge: true})
+			db.collection(gamecode).doc('teamred').set({player1: {username: input, hand: []}, score: 0}, {merge: true})
 			document.querySelector('.userInput').classList.add('hidden');
 		} else if (red[1] === '') {
 			db.collection(gamecode).doc('teamred').set({player2: {username: input, hand: []}}, {merge: true})
@@ -68,8 +70,9 @@ export default function Lobby() {
 				<button onClick={joinRed}>JOIN RED</button>
 			</div>
 			<div className='lobbyLink'>
-				<Link to={`/${gamecode}/${input}`}><button>Go to game</button></Link>
+				<StartGame blue={blue} red={red} gamecode={gamecode} input={input} />
 			</div>
 		</div>
 	);
 }
+

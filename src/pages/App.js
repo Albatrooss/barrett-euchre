@@ -8,6 +8,7 @@ import MyHand from './components/myHand';
 import Facedown from './components/facedown';
 import Cardtable from './components/cardtable';
 import UI from './components/ui';
+import Buttons from './components/buttons';
 
 const db = firebase.firestore();
 
@@ -125,15 +126,18 @@ function App({match}) {
 	}
 
 	const playCard = (card) => {
-		if (dealer.phase !== 1) {
+		
+		if (dealer.phase === 1) {
+			sort(card);
+		} else {
 			if (dealer.phase === 3) {
 				let temp = cardsPlayed;
 				temp.push(card);
 				db.collection(gamecode).doc('cardsPlayed').set({cards: temp});
 			}
-				let index = user.hand.findIndex(x => x === card);
-				let newHand = user.hand;
-				newHand.splice(index, 1)
+			let index = user.hand.findIndex(x => x === card);
+			let newHand = user.hand;
+			newHand.splice(index, 1)
 			if (user.place === 'blue1') {
 				db.collection(gamecode).doc('teamblue').update({player1: {hand: newHand, username: username}});
 			} else if (user.place === 'blue2') {
@@ -144,6 +148,38 @@ function App({match}) {
 				db.collection(gamecode).doc('teamred').update({player2: {hand: newHand, username: username}});
 			}
 			db.collection(gamecode).doc('dealer').update({phase: 3});
+		}
+	}
+	
+	const sort = (card) => {
+		let newHand = user.hand;
+		let ind = newHand.findIndex(x => x === card);
+		let sortedCard = newHand.splice(ind, 1);
+		newHand.push(sortedCard[0]);
+		if (user.place === 'blue1') {
+				db.collection(gamecode).doc('teamblue').update({player1: {hand: newHand, username: username}});
+			} else if (user.place === 'blue2') {
+				db.collection(gamecode).doc('teamblue').update({player2: {hand: newHand, username: username}});
+			} else if (user.place === 'red1') {
+				db.collection(gamecode).doc('teamred').update({player1: {hand: newHand, username: username}});
+			}else if (user.place === 'red2') {
+				db.collection(gamecode).doc('teamred').update({player2: {hand: newHand, username: username}});
+			}
+	}
+
+	const woopsie = (card) => {
+		let ind = cardsPlayed.findIndex(x => x === card);
+		let newCards = cardsPlayed;
+		newCards.splice(ind, 1);
+		db.collection(gamecode).doc('cardsPlayed').set({cards: newCards});
+		if (user.place === 'blue1') {
+			db.collection(gamecode).doc('teamblue').update({player1: {username: user.username, hand: [...user.hand, card]}});
+		} else if (user.place === 'blue2') {
+			db.collection(gamecode).doc('teamblue').update({player2: {username: user.username, hand: [...user.hand, card]}});
+		} else if (user.place === 'red1') {
+			db.collection(gamecode).doc('teamblue').update({player1: {username: user.username, hand: [...user.hand, card]}});
+		} else if (user.place === 'red2') {
+			db.collection(gamecode).doc('teamblue').update({player2: {username: user.username, hand: [...user.hand, card]}});
 		}
 	}
 	
@@ -160,9 +196,26 @@ function App({match}) {
 	
 	const pickUp = (card) => {
 		if (dealer.phase === 1) {
-			db.collection(gamecode).doc('dealer').update({flipped: 'FD', phase: 2});
-			db.collection(gamecode).doc('teamblue').update({player1: {username: user.username, hand: [...user.hand, card]}})
+			if (user.place === 'blue1') {
+				db.collection(gamecode).doc('dealer').update({flipped: 'FD', phase: 2});
+				db.collection(gamecode).doc('teamblue').update({player1: {username: user.username, hand: [...user.hand, card]}})
+			} else if (user.place === 'blue2') {
+				db.collection(gamecode).doc('dealer').update({flipped: 'FD', phase: 2});
+				db.collection(gamecode).doc('teamblue').update({player2: {username: user.username, hand: [...user.hand, card]}})
+			} else if (user.place === 'red1') {
+				db.collection(gamecode).doc('dealer').update({flipped: 'FD', phase: 2});
+				db.collection(gamecode).doc('teamred').update({player1: {username: user.username, hand: [...user.hand, card]}})
+			} else if (user.place === 'red2') {
+				db.collection(gamecode).doc('dealer').update({flipped: 'FD', phase: 2});
+				db.collection(gamecode).doc('teamred').update({player2: {username: user.username, hand: [...user.hand, card]}})
+			}			
+		} else if (dealer.phase === 3 && card === 'FD') {
+			deal();
 		}
+	}
+	
+	const turnDown = (newTrump) => {
+		db.collection(gamecode).doc('dealer').set({trump: newTrump, phase: 3, flipped: 'FD'})
 	}
 	
 	const addScore = (team) => {
@@ -188,12 +241,12 @@ function App({match}) {
 			snap.docs.forEach(doc => {
 				if (doc.id === 'teamblue') {
 					blue1 = doc.data().player1;
-					blue2 = doc.data().player2
+					blue2 = doc.data().player2;
 					blueScore = doc.data().score;
 					blueTricks = doc.data().tricks;
 				} else if (doc.id === 'teamred') {
 					red1 = doc.data().player1;
-					red2 = doc.data().player2
+					red2 = doc.data().player2;
 					redScore = doc.data().score;
 					redTricks = doc.data().tricks;
 				} else if (doc.id === 'cardsPlayed') {
@@ -246,13 +299,13 @@ function App({match}) {
 			</div>
 			<div className='row'>
 				<Facedown user={enemy1} />
-				<Cardtable cards={cardsPlayed} handleClick={claimTrick} />
+				<Cardtable cards={cardsPlayed} handleClick={claimTrick} woopsie={woopsie} />
 				<Facedown user={enemy2} />
 			</div>
 			<div className='myHandContainer'>
+				<UI team1={team1} team2={team2} dealer={dealer} addScore={addScore} />
 				<MyHand user={user} handleClick={playCard}/>
-				<UI deal={deal} team1={team1} team2={team2} dealer={dealer} handleClick={pickUp} addScore={addScore} />
-				<button onClick={deal}>DEAL</button>
+				<Buttons pickUp={pickUp} dealer={dealer} turnDown={turnDown} />
 			</div>
 		</div>
   );

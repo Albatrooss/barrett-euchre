@@ -76,6 +76,10 @@ img {
 .cardTable {
 	width: 50%;
 }
+.teammate {
+	display: flex;
+	justify-content: space-around;
+}
 .myHandLI {
 	list-style: none;
 	display: inline-block;
@@ -84,7 +88,8 @@ img {
 	margin: 5px;
 }
 .otherHandLI,
-.cardsplayedLI {
+.cardsplayedLI,
+.deckContainer {
 	list-style: none;
 	display: inline-block;
 	background: black;
@@ -92,7 +97,8 @@ img {
 	margin: 5px;
 }
 .otherHand:hover,
-.hand:hover {
+.hand:hover,
+.deck:hover {
 	opacity: 90%;
 }
 .otherHand {
@@ -107,4 +113,18 @@ img {
 }
 .myHand {
 	width: 60%;
+	display: flex;
+	justify-content: space-around;
+}
+.ui {
+	width: 30%;
+}
+.btns {
+	width: 30%;
+}
+.turnDownBtn {
+	display: block;
+}
+.dark {
+	background: #555;
 }
