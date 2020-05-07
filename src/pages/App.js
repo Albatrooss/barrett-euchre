@@ -177,9 +177,9 @@ function App({match}) {
 		} else if (user.place === 'blue2') {
 			db.collection(gamecode).doc('teamblue').update({player2: {username: user.username, hand: [...user.hand, card]}});
 		} else if (user.place === 'red1') {
-			db.collection(gamecode).doc('teamblue').update({player1: {username: user.username, hand: [...user.hand, card]}});
+			db.collection(gamecode).doc('teamred').update({player1: {username: user.username, hand: [...user.hand, card]}});
 		} else if (user.place === 'red2') {
-			db.collection(gamecode).doc('teamblue').update({player2: {username: user.username, hand: [...user.hand, card]}});
+			db.collection(gamecode).doc('teamred').update({player2: {username: user.username, hand: [...user.hand, card]}});
 		}
 	}
 	
