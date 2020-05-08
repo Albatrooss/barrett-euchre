@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 export default function Welcome() {
 	let words = [
@@ -49,11 +49,24 @@ export default function Welcome() {
 	let randomcode = generateGamecode();
 	const [gamecode, setgamecode] = useState(randomcode);
 	
+		let history = useHistory();
+	
+	const goToLobby = (e) => {
+		e.preventDefault();
+		console.log(gamecode)
+		let path = `/${gamecode}`
+		history.push(path);
+	}
+	
 	return (
-		<div>
-			<h1>WELCOME</h1>
-			<input onChange={event => setgamecode(event.target.value)} placeholder={randomcode}/>
-			<Link to={`/${gamecode}`}><button>Go to game</button></Link>
+		<div className='welcomeDiv'>
+			<h2>WELCOME TO EUCHRE</h2>
+			<h4>Use Game Code to join a game lobby</h4>
+			<form onSubmit={goToLobby}>
+				<input id='codeInput' onChange={event => setgamecode(event.target.value)} placeholder={randomcode}/>
+				<button type='submit' className='goToGameBtn'>LOBBY</button>
+			</form>
+			
 		</div>
 	);
 }

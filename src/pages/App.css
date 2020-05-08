@@ -1,61 +1,360 @@
-.switch {
-	position: relative;
-	display: inline-block;
-	width: 60px;
-	height: 34px;
+@import url('https://fonts.googleapis.com/css?family=Crete+Round|Ubuntu:500|Volkhov&display=swap');
+
+/* Constants */
+
+body {
+	-webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-.switch input {
-	opacity: 0;
-	width: 0;
-	height: 0;
+
+input:focus {
+	outline: none;
 }
-.slider {
-	position: absolute;
-	cursor: pointer;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: red;
-	-webkit-transition: .4s;
-	transition: .4s;
+
+.row {
+	width: 100%;
+	display: flex;
 }
-.slider:before {
-	position: absolute;
-	content: "";
-	height: 26px;
-	width: 26px;
-	left: 4px;
-	bottom: 4px;
+.loading {
+	height: 500px;
+}
+/* Nav Bar */
+
+nav {
+	text-align: center;
+	height: 40px;
+	padding: 10px 0;
+	width: 100%;
+	background-color: #E4A281;
+	margin: 0;
+	border-bottom: 3px solid #888;
+}
+nav h1 {
+	font-family: 'Volkhov', serif;
+	margin: 0;
+	font-size: 2rem;
+	color: #fff;
+}
+
+/* Footer */
+
+footer {
+	background-color: #fee4a6;
+	padding: 40px 0;
+	text-align: center;
+	color: #888;
+	border-top: 3px solid #888;
+}
+
+/* Welcome Page */
+
+.welcomeDiv {
+	font-family: 'Ubuntu', sans-serif;
+	background-color: #f7f4e3;
+	width: 100%;
+	padding: 40px 0;
+	text-align: center;
+	color: #888;
+}
+.welcomeDiv h2 {
+	font-size: 3rem;
+}
+.welcomeDiv h4 {
+	font-size: 2rem;
+	margin-bottom: 85px;
+}
+.welcomeDiv input {
+	height: 75px;
+	width: 500px;
+	display: block;
+	margin: 25px auto;
+	text-align: center;
+	border-radius: 8px;
+	border: 3px solid #888;
+	font-size: 2rem;
+}
+.welcomeDiv a {
+	text-decoration: none;
+}
+.goToGameBtn:hover {
+	background-color: #d2e1c8;
+	color: #fff;
+}
+.goToGameBtn {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 20px;
+	display: block;
+	margin: 50px auto 10px auto;
+	height: 50px;
+	width: 100px;
+	background-color: #C6D6BC;
+	color: #666;
+	border-radius: 8px;
+}
+
+
+/* Game Lobby*/
+
+.lobbyContainer {
+	font-family: 'Ubuntu', sans-serif;
+	background-color: #f7f4e3;
+	width: 100%;
+	padding: 40px 0;
+	text-align: center;	
+	color: #888;
+}
+.lobbyTitleContainer {
+	margin-bottom: 20px;
+}
+.lobbyTitleContainer p {
+	margin: 0 20px;
+}
+.lobbyTitleContainer h1 {
+	display: inline;
+	font-size: 3rem;
+	margin: 0 0 40px 0;
+}
+.lobbyContainer .row {
+	justify-content: space-around;
+}
+.blueTeam,
+.redTeam {
+	width: 200px;
+	height: 250px;
+	background-color: #d2e1c8;
+	border: 3px solid #888;
+	border-radius: 5px;
+	text-align: center;
+}
+.teamList {
+	padding: 0;
+}
+.lobbyLI {
+	list-style: none;
+	margin: 40px 5px;
+	padding: 20px 0;
 	background-color: #fff;
-	-webkit-transition: .4s;
-	transition: .4s;
+	border-radius: 5px;
 }
-input:checked + .slider {
-	background-color: #2196F3;
+.joinTeamBtn:hover {
+	background-color: #D7997A;
+	color: #fff;
 }
-input:focus + .slider {
-	box-shadow: 0 0 1px #2196F3;
+.joinTeamBtn {
+	font-family: 'Ubuntu', sans-serif;
+	height: 40px;
+	width: 140px;
+	font-size: 20px;
+	background-color: #E4A281;
+	color: #666;
+	border-radius: 8px;
 }
-input:checked + .slider:before {
-	-webkit-transform: translateX(26px);
-	-ms-transform: translateX(26px);
-	transform: translateX(26px);
+.userInput input {
+	height: 50px;
+	width: 500px;
+	display: block;
+	margin: 40px auto 0 auto;
+	text-align: center;
+	border-radius: 8px;
+	border: 3px solid #888;
+	font-size: 2rem;
 }
-.slider.round {
-	border-radius: 34px;
+.g2gBtn {
+	font-family: 'Ubuntu', sans-serif;
+	height: 50px;
+	width: 200px;
+	margin: 40px auto 0 auto;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 20px;
+	background-color: #C6D6BC;
+	color: #666;
+	border-radius: 8px;
 }
-.slider.round:before {
-	border-radius: 50%;
+
+/* APP */
+
+.app {
+	background-color: #d2e1c8;
+	padding: 20px 10px;
 }
-h1 {
-	color: blue;
+
+
+/* FACEDOWN */
+
+.facedown {
+	font-family: 'Ubuntu', sans-serif;
+	width: 400px;
+	height: 155px;
+	background-color: #f7f4e3;
+	border: 2px solid #888;
+	border-radius: 5px;
+	text-align: center;
 }
+
+.facedown p {
+	margin: 5px;
+}
+
+.facedown ul {
+	padding: 5px;
+}
+
+/* MY HAND */
+
+.myHandContainer {
+	display: flex;
+	justify-content: space-between;
+}
+
+.myHand {
+	font-family: 'Ubuntu', sans-serif;
+	width: 400px;
+	height: 155px;
+	background-color: #f7f4e3;
+	border: 2px solid #888;
+	border-radius: 5px;
+	text-align: center;
+	width: 40%;
+	display: block;
+	justify-content: space-around;
+}
+.myHand h4 {
+	margin: 5px;	
+}
+
+/* CARDS PLAYED */
+
+.cardTable {
+	padding: 0 20px;
+	width: 50%;
+}
+
+.cardTable ul {
+	padding: 0 0 0 20%;
+}
+.claimTrickLI {
+	list-style: none;
+	display: inline-block;
+	border-radius: 5px;
+	margin: 5px;
+}
+.claimBtn:focus {
+	outline: none;
+}
+.claimBtn:hover {
+	background-color: #CAC6B4;
+	color: white;
+}
+.claimTrick {
+	font-family: 'Ubuntu', sans-serif;
+	background-color: #f7f4e3;
+	height: 40px;
+	border: 2px solid #888;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+/* UI*/
+
+.UI {
+	border: 3px solid #888;
+	border-radius: 5px;
+	height: 120px;
+	width: 25%;
+	margin: 20px 0;
+}
+.UI .row {
+	height: 60px;
+}
+.nameCol1:hover,
+.nameCol2:hover {
+	cursor: pointer;
+	background-color: #CAC6B4;
+	color: white;
+}
+.nameCol1 h2,
+.nameCol2 h2 {
+	margin: 0;
+	line-height: 56px;
+	
+}
+.nameCol1,
+.nameCol2 {
+	width: 60%;
+	border: 1px solid #888;
+	background-color: #f7f4e3;
+}
+.scoreCol1:hover,
+.scoreCol2:hover {
+	cursor: pointer;
+	background-color: #CAC6B4;
+	color: white;
+}
+.scoreCol1,
+.scoreCol2 {
+	width: 20%;
+	border: 1px solid #888;
+	font-size: 2rem;
+	text-align: center;
+	line-height: 56px;
+	background-color: #f7f4e3;
+}
+.tricksCol1,
+.tricksCol2 {
+	width: 20%;
+	border: 1px solid #888;
+	font-size: 2rem;
+	text-align: center;
+	line-height: 56px;
+	background-color: #fee4a6;
+}
+.tricksCol1:hover,
+.tricksCol2:hover {
+	cursor: pointer;
+	background-color: #C8B27E;
+	color: white;
+}
+
+
+
+/* DECK */
+
+
+.btns {
+	width: 25%;
+	text-align: center;
+	margin: 20px
+}
+.deckContainer {
+	margin: 5px auto;
+	background-color: black;
+	display: inline-block;
+}
+.turnDownBtn {
+	display: block;
+}
+
+.turnDownForm input {
+	font-family: 'Ubuntu', sans-serif;
+	margin: 10px;
+	height: 25px;
+	width: 200px;
+	text-align: center;
+	font-size: 1rem;
+	border: 3px solid #888;
+	border-radius: 5px;
+}
+
+
 img {
 	width: 50px;
 }
 .hidden {
 	opacity: 0;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
 	height: 0;
 	width: 0;
 	z-index: -10;
@@ -73,9 +372,6 @@ img {
 .facedown {
 	width: 25%
 }
-.cardTable {
-	width: 50%;
-}
 .teammate {
 	display: flex;
 	justify-content: space-around;
@@ -88,8 +384,7 @@ img {
 	margin: 5px;
 }
 .otherHandLI,
-.cardsplayedLI,
-.deckContainer {
+.cardsplayedLI {
 	list-style: none;
 	display: inline-block;
 	background: black;
@@ -100,6 +395,9 @@ img {
 .hand:hover,
 .deck:hover {
 	opacity: 90%;
+	-webkit-opacity: 90%;
+	-moz-opacity: 90%;
+	cursor: pointer;
 }
 .otherHand {
 	width: 50px;
@@ -107,24 +405,4 @@ img {
 .hand,
 .played {
 	width: 70px;
-}
-.myHandContainer {
-	display: flex;
-}
-.myHand {
-	width: 60%;
-	display: flex;
-	justify-content: space-around;
-}
-.ui {
-	width: 30%;
-}
-.btns {
-	width: 30%;
-}
-.turnDownBtn {
-	display: block;
-}
-.dark {
-	background: #555;
 }

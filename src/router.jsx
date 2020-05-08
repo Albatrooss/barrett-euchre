@@ -8,6 +8,9 @@ export default function Router() {
 	
 	return(
 		<BrowserRouter>
+			<nav>
+				<h1>BARRETT EUCHRE</h1>
+			</nav>
 			<main id='main' role='main' className='pad-t-b-4'>
 				<Switch>
 					<Route path='/' exact component={Welcome} />
@@ -15,6 +18,9 @@ export default function Router() {
 					<Route path='/:gamecode/:username' component={App} />
 				</Switch>
 			</main>
+			<footer>
+				<h4>By Tim Robillard</h4>
+			</footer>
 		</BrowserRouter>
 	);
 }

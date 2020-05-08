@@ -183,11 +183,11 @@ function App({match}) {
 		}
 	}
 	
-	const claimTrick = () => {
-		if (user.place === 'blue1' || user.place === 'blue2') {
+	const claimTrick = (team) => {
+		if (team === 2) {
 			let tricks = team2.tricks + 1;
 			db.collection(gamecode).doc('teamblue').update({tricks: tricks})
-		} else if (user.place === 'red1' || user.place === 'red2') {
+		} else if (team === 1) {
 			let tricks = team1.tricks + 1;
 			db.collection(gamecode).doc('teamred').update({tricks: tricks})
 		}
@@ -221,10 +221,24 @@ function App({match}) {
 	const addScore = (team) => {
 		if (team === 1) {
 			let newScore = team1.score + 1;
-			db.collection(gamecode).doc('teamred').update({score: newScore});
+			let capped = newScore > 10 ? 10 : newScore;
+			db.collection(gamecode).doc('teamred').update({score: capped});
 		} else if (team === 2) {
 			let newScore = team2.score + 1;
-			db.collection(gamecode).doc('teamblue').update({score: newScore});
+			let capped = newScore > 10 ? 10 : newScore;
+			db.collection(gamecode).doc('teamblue').update({score: capped});
+		}
+	}
+	
+	const minusScore = (team) => {
+		if (team === 1) {
+			let newScore = team1.score - 1;
+			let capped = newScore < 0 ? 0 : newScore;
+			db.collection(gamecode).doc('teamred').update({score: capped});
+		} else if (team === 2) {
+			let newScore = team2.score - 1;
+			let capped = newScore < 0 ? 0 : newScore;
+			db.collection(gamecode).doc('teamblue').update({score: capped});
 		}
 	}
 	
@@ -255,8 +269,8 @@ function App({match}) {
 					setDealer(doc.data())
 				}
 			})
-			setTeam1({name: `${red1.username}/${red2.username}`, score: redScore, tricks: redTricks});
-			setTeam2({name: `${blue1.username}/${blue2.username}`, score: blueScore, tricks: blueTricks});
+			setTeam1({name: `${red1.username}/ ${red2.username}`, score: redScore, tricks: redTricks});
+			setTeam2({name: `${blue1.username}/ ${blue2.username}`, score: blueScore, tricks: blueTricks});
 			if (blue1.username === username) {
 					setUser({...blue1, place: 'blue1'});
 					setTeammate({...blue2, place: 'blue2'});
@@ -290,27 +304,27 @@ function App({match}) {
 	}, []);
 	
 	if (user.busted) {
-		return (<Redirect to='/' />)
+		return (<Redirect to={`/${gamecode}`} />)
 	} else if (user.username && teammate.username && enemy1.username && enemy2.username) {
 		  return (
-    <div className="App">	
+    <div className="app">	
 			<div className ='teammate'>
 				<Facedown user={teammate} />
 			</div>
 			<div className='row'>
 				<Facedown user={enemy1} />
-				<Cardtable cards={cardsPlayed} handleClick={claimTrick} woopsie={woopsie} />
+				<Cardtable cards={cardsPlayed} woopsie={woopsie} />
 				<Facedown user={enemy2} />
 			</div>
 			<div className='myHandContainer'>
-				<UI team1={team1} team2={team2} dealer={dealer} addScore={addScore} />
+				<UI team1={team1} team2={team2} dealer={dealer} addScore={addScore} minusScore={minusScore} claim={claimTrick} />
 				<MyHand user={user} handleClick={playCard}/>
 				<Buttons pickUp={pickUp} dealer={dealer} turnDown={turnDown} />
 			</div>
 		</div>
   );
 	} else {
-		return ( 'hello')
+		return (<div clasName='loading'>Loading</div>)
 	}
 		
 

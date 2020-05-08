@@ -16,24 +16,32 @@ export default function Lobby() {
 	
 	
 	const joinBlue = () => {
-		if (blue[0] === '') {
-			db.collection(gamecode).doc('teamblue').set({player1: {username: input, hand: []}, score: 0}, {merge: true})
-			db.collection(gamecode).doc('dealer').set({flipped: 'FD', phase: 3})
-			document.querySelector('.userInput').classList.add('hidden');
-		} else if (blue[1] === '') {
-			db.collection(gamecode).doc('teamblue').set({player2: {username: input, hand: []}}, {merge: true})
-			document.querySelector('.userInput').classList.add('hidden');
+		if (input !== '') {
+			if (blue[0] === '') {
+				db.collection(gamecode).doc('teamblue').set({player1: {username: input, hand: []}, score: 0}, {merge: true})
+				db.collection(gamecode).doc('dealer').set({flipped: 'FD', phase: 3, trump: 'click deck to deal'})
+				document.querySelector('.userInput').classList.add('hidden');
+				document.querySelector('.standby').classList.remove('hidden');
+			} else if (blue[1] === '') {
+				db.collection(gamecode).doc('teamblue').set({player2: {username: input, hand: []}}, {merge: true})
+				document.querySelector('.userInput').classList.add('hidden');
+				document.querySelector('.standby').classList.remove('hidden');
+			}
 		}
 		setUsername(input);
 	}
 	
 	const joinRed = () => {
-		if (red[0] === '') {
-			db.collection(gamecode).doc('teamred').set({player1: {username: input, hand: []}, score: 0}, {merge: true})
-			document.querySelector('.userInput').classList.add('hidden');
-		} else if (red[1] === '') {
-			db.collection(gamecode).doc('teamred').set({player2: {username: input, hand: []}}, {merge: true})
-			document.querySelector('.userInput').classList.add('hidden');
+		if (input !== '') {
+			if (red[0] === '') {
+				db.collection(gamecode).doc('teamred').set({player1: {username: input, hand: []}, score: 0}, {merge: true})
+				document.querySelector('.userInput').classList.add('hidden');
+				document.querySelector('.standby').classList.remove('hidden');
+			} else if (red[1] === '') {
+				db.collection(gamecode).doc('teamred').set({player2: {username: input, hand: []}}, {merge: true})
+				document.querySelector('.userInput').classList.add('hidden');
+				document.querySelector('.standby').classList.remove('hidden');
+			}
 		}
 		setUsername(input);
 	}
@@ -55,24 +63,99 @@ export default function Lobby() {
 		return unsubscribe;
 	}, [])
 	
-	return (
-		<div>
-			<h1>WELCOME TO {gamecode} LOBBY</h1>
-			<div className='team redTeam'>
-				<ul className='redTeamList'>RED TEAM: {red.map(x => {return x !== '' ? <li key={x}>{x}</li> : null})}</ul>
+	console.log(input)
+	
+	if (blue[1] === '' && red[1] === '') {
+		return (
+			<div className='lobbyContainer'>
+				<div className='lobbyTitleContainer'>
+					<p>WELCOME TO</p><h1>{gamecode.toUpperCase()}</h1><p> GAMELOBBY</p>
+				</div>
+				<div className='row'>
+					<div className='redTeam'>
+						<p>TEAM 1:</p>
+						<ul className='teamList'>{red.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+						<button className='joinTeamBtn' onClick={joinRed}>JOIN</button>
+					</div>
+					<div className='blueTeam'>
+						<p>TEAM 2:</p>
+						<ul className='teamList'>{blue.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+						<button className='joinTeamBtn' onClick={joinBlue}>JOIN</button>
+					</div>
+				</div>
+				<div className='userInput'>
+					<input type='text' placeholder='USERNAME' value={input} onChange={e => setInput(e.currentTarget.value)} />
+				</div>
+				<h3 className='standby hidden'>Please wait while the others join</h3>
 			</div>
-			<div className='team blueTeam'>
-				<ul className='blueTeamList'>BLUE TEAM: {blue.map(x => {return x !== '' ? <li key={x}>{x}</li> : null})}</ul>
+		);
+	} else if (blue[1] === '' && red[1] !== '') {
+		return (
+			<div className='lobbyContainer'>
+				<div className='lobbyTitleContainer'>
+					<p>WELCOME TO</p><h1>{gamecode.toUpperCase()}</h1><p> GAMELOBBY</p>
+				</div>
+				<div className='row'>
+					<div className='redTeam'>
+						<p>TEAM 1:</p>
+						<ul className='teamList'>{red.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+					</div>
+					<div className='blueTeam'>
+						<p>TEAM 2:</p>
+						<ul className='teamList'>{blue.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+						<button className='joinTeamBtn' onClick={joinBlue}>JOIN</button>
+					</div>
+				</div>
+				<div className='userInput'>
+					<input type='text' placeholder='USERNAME' value={input} onChange={e => setInput(e.currentTarget.value)} />
+				</div>
+				<h3 className='standby hidden'>Please wait while the others join</h3>
 			</div>
-			<div className='userInput'>
-				<input type='text' placeholder='USERNAME' value={input} onChange={e => setInput(e.currentTarget.value)} />
-				<button onClick={joinBlue}>JOIN BLUE</button>
-				<button onClick={joinRed}>JOIN RED</button>
+		); 
+ 	} else if (blue[1] !== '' && red[1] === '') {
+		return (
+			<div className='lobbyContainer'>
+				<div className='lobbyTitleContainer'>
+					<p>WELCOME TO</p><h1>{gamecode.toUpperCase()}</h1><p> GAMELOBBY</p>
+				</div>
+				<div className='row'>
+					<div className='redTeam'>
+						<p>TEAM 1:</p>
+						<ul className='teamList'>{red.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+						<button className='joinTeamBtn' onClick={joinRed}>JOIN</button>
+					</div>
+					<div className='blueTeam'>
+						<p>TEAM 2:</p>
+						<ul className='teamList'>{blue.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+					</div>
+				</div>
+				<div className='userInput'>
+					<input type='text' placeholder='USERNAME' value={input} onChange={e => setInput(e.currentTarget.value)} />
+				</div>
+				<h3 className='standby hidden'>Please wait while the others join</h3>
+			</div>
+		);						 
+	 } else if (blue[1] !== '' && red[1] !== '') {
+		return (
+		<div className='lobbyContainer'>
+			<div className='lobbyTitleContainer'>
+				<p>WELCOME TO</p><h1>{gamecode.toUpperCase()}</h1><p> GAMELOBBY</p>
+			</div>
+			<div className='row'>
+				<div className='redTeam'>
+					<p>TEAM 1:</p>
+					<ul className='teamList'>{red.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+				</div>
+				<div className='blueTeam'>
+					<p>TEAM 2:</p>
+					<ul className='teamList'>{blue.map(x => {return x !== '' ? <li key={x} className='lobbyLI'>{x.toUpperCase()}</li> : null})}</ul>
+				</div>
 			</div>
 			<div className='lobbyLink'>
 				<StartGame blue={blue} red={red} gamecode={gamecode} input={input} />
 			</div>
 		</div>
 	);
+	}
 }
 
