@@ -186,10 +186,12 @@ function App({match}) {
 	const claimTrick = (team) => {
 		if (team === 2) {
 			let tricks = team2.tricks + 1;
-			db.collection(gamecode).doc('teamblue').update({tricks: tricks})
+			let capped = tricks > 5 ? 5 : tricks
+			db.collection(gamecode).doc('teamblue').update({tricks:  capped})
 		} else if (team === 1) {
 			let tricks = team1.tricks + 1;
-			db.collection(gamecode).doc('teamred').update({tricks: tricks})
+			let capped = tricks > 5 ? 5 : tricks
+			db.collection(gamecode).doc('teamred').update({tricks: capped})
 		}
 		db.collection(gamecode).doc('cardsPlayed').set({cards: []});
 	}

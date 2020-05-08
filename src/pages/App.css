@@ -25,11 +25,12 @@ input:focus {
 nav {
 	text-align: center;
 	height: 40px;
-	padding: 10px 0;
+	padding: 1vh 0;
 	width: 100%;
 	background-color: #E4A281;
 	margin: 0;
 	border-bottom: 3px solid #888;
+	height: 7vh;
 }
 nav h1 {
 	font-family: 'Volkhov', serif;
@@ -42,10 +43,11 @@ nav h1 {
 
 footer {
 	background-color: #fee4a6;
-	padding: 40px 0;
+	padding: 3vh 0;
 	text-align: center;
 	color: #888;
 	border-top: 3px solid #888;
+	height: 15vh;
 }
 
 /* Welcome Page */
@@ -54,9 +56,10 @@ footer {
 	font-family: 'Ubuntu', sans-serif;
 	background-color: #f7f4e3;
 	width: 100%;
-	padding: 40px 0;
+	padding: 3vh 0;
 	text-align: center;
 	color: #888;
+	height: 69vh;
 }
 .welcomeDiv h2 {
 	font-size: 3rem;
@@ -101,7 +104,8 @@ footer {
 	font-family: 'Ubuntu', sans-serif;
 	background-color: #f7f4e3;
 	width: 100%;
-	padding: 40px 0;
+	padding: 3vh 0;
+	height: 69vh;
 	text-align: center;	
 	color: #888;
 }
@@ -177,16 +181,23 @@ footer {
 
 .app {
 	background-color: #d2e1c8;
-	padding: 20px 10px;
+	padding: 4vh 10px;
+	height: 67vh;
+}
+.app row {
+	height: 30%;
 }
 
+.teammate {
+	height: 30%;
+}
 
 /* FACEDOWN */
 
 .facedown {
 	font-family: 'Ubuntu', sans-serif;
 	width: 400px;
-	height: 155px;
+	height: 90%;
 	background-color: #f7f4e3;
 	border: 2px solid #888;
 	border-radius: 5px;
@@ -206,6 +217,8 @@ footer {
 .myHandContainer {
 	display: flex;
 	justify-content: space-between;
+	height: 40%;
+	padding-top: 1vh;
 }
 
 .myHand {
@@ -216,6 +229,7 @@ footer {
 	border: 2px solid #888;
 	border-radius: 5px;
 	text-align: center;
+	height: 90%;
 	width: 40%;
 	display: block;
 	justify-content: space-around;
